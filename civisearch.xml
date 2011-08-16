@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension version="1.6" type="plugin" group="search">
+    <name>CiviCRM Search Plugin</name>
+    <author>Brian Shaughnessy</author>
+    <creationDate>August, 2011</creationDate>
+    <copyright>(C) Brian Shaughnessy</copyright>
+    <authorEmail>brian@lcdservices.biz</authorEmail>
+    <authorUrl>www.lcdservices.biz</authorUrl>
+    <license>GNU Affero General Public License version 3 or later</license>
+    <version>1.0</version>
+    <description>This plugin provides search access to CiviCRM resources.</description>
+	
+    <files>
+        <filename plugin="civisearch">civisearch.php</filename>
+        <filename>index.html</filename>
+    </files>
+	
+	<languages>
+		<language tag="en-GB">en-GB.plg_civisearch.ini</language>
+		<language tag="en-GB">en-GB.plg_civisearch.sys.ini</language>
+	</languages>
+	
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="search_event" type="radio"
+                    default="1"
+                    description="PLG_CIVISEARCH_EVENT_FIELD_DESC"
+                    label="PLG_CIVISEARCH_EVENT_FIELD_LABEL"
+                >
+                    <option value="1">JON</option>
+                    <option value="0">JOFF</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
