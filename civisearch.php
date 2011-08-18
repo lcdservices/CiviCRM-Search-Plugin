@@ -107,9 +107,9 @@ class plgSearchCiviSearch extends JPlugin
                 }
 
                 $return = array();
-                foreach($rows AS $key => $category) {
-                    if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text'))) {
-                        $return[] = $category;
+                foreach($rows AS $key => $event) {
+                    if (searchHelper::checkNoHTML($event, $searchText, array('summary', 'title', 'text'))) {
+                        $return[] = $event;
                     }
                 }
             }
