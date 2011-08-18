@@ -8,7 +8,7 @@
     <authorUrl>www.lcdservices.biz</authorUrl>
     <license>GNU Affero General Public License version 3 or later</license>
     <version>1.0</version>
-    <description>PLG_SEARCH_CIVISEARCH_XML_DESCRIPTION</description>
+    <description>This plugin provides search access for CiviCRM resources.</description>
 	
     <files>
         <filename plugin="civisearch">civisearch.php</filename>
