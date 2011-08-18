@@ -8,7 +8,7 @@
     <authorUrl>www.lcdservices.biz</authorUrl>
     <license>GNU Affero General Public License version 3 or later</license>
     <version>1.0</version>
-    <description>This plugin provides search access to CiviCRM resources.</description>
+    <description>PLG_SEARCH_CIVISEARCH_XML_DESCRIPTION</description>
 	
     <files>
         <filename plugin="civisearch">civisearch.php</filename>
@@ -25,8 +25,8 @@
             <fieldset name="basic">
                 <field name="search_event" type="radio"
                     default="1"
-                    description="PLG_CIVISEARCH_EVENT_FIELD_DESC"
-                    label="PLG_CIVISEARCH_EVENT_FIELD_LABEL"
+                    description="PLG_SEARCH_CIVISEARCH_EVENT_FIELD_DESC"
+                    label="PLG_SEARCH_CIVISEARCH_EVENT_FIELD_LABEL"
                 >
                     <option value="1">JON</option>
                     <option value="0">JOFF</option>
