@@ -28,7 +28,7 @@ class plgSearchCiviSearch extends JPlugin
      */
     function onContentSearchAreas()
     {
-        static $areas = array( 'events' => 'CiviCRM Events' );
+        static $areas = array( 'events' => 'Events' );
         return $areas;
     }
 
@@ -81,13 +81,14 @@ class plgSearchCiviSearch extends JPlugin
             case 'alpha':
                 $order = 'a.title ASC';
                 break;
-
-            case 'category':
-            case 'popular':
             case 'newest':
+                $order = 'a.start_date DESC';
+                break;
             case 'oldest':
+                $order = 'a.start_date ASC';
+                break;
             default:
-                $order = 'a.title DESC';
+                $order = 'a.id DESC';
         }
 
         $text   = $db->Quote('%'.$db->getEscaped($text, true).'%', false);
@@ -97,7 +98,7 @@ class plgSearchCiviSearch extends JPlugin
         if (!empty($state)) {
             $query->select('a.title, a.description AS text, a.created_date AS created, "2" AS browsernav, a.id AS eventid');
             $query->from('civicrm_event AS a');
-            $query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .')');
+            $query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .' OR a.summary LIKE '. $text .')  AND a.is_public = 1  AND a.is_template = 0 AND  a.is_active = 1 ');
             $query->group('a.id');
             $query->order($order);
             if ($app->isSite() && $app->getLanguageFilter()) {
@@ -112,7 +113,7 @@ class plgSearchCiviSearch extends JPlugin
                 for ($i = 0; $i < $count; $i++) {
                     $rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
                     $rows[$i]->href = 'index.php?option=com_civicrm&task=civicrm/event/info&reset=1&id='.$rows[$i]->eventid;
-                    $rows[$i]->section  = JText::_('CiviCRM Event');
+                    $rows[$i]->section  = JText::_('Event');
                 }
 
                 $return = array();
