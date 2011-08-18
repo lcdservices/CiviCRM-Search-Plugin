@@ -59,18 +59,8 @@ class plgSearchCiviSearch extends JPlugin
             }
         }
 
-        $sContent       = $this->params->get('search_content',      1);
-        $sArchived      = $this->params->get('search_archived',     1);
-        $limit          = $this->params->def('search_limit',        50);
-
-        $state          = array();
-        if ($sContent) {
-            $state[]=1;
-        }
-        if ($sArchived) {
-            $state[]=2;
-        }
-
+        $sEvent = $this->params->get('search_event');
+        $limit = $this->params->def('search_limit',        50);
 
         $text = trim($text);
         if ($text == '') {
@@ -95,8 +85,8 @@ class plgSearchCiviSearch extends JPlugin
         $query  = $db->getQuery(true);
 
         $return = array();
-        if (!empty($state)) {
-            $query->select('a.title, a.description AS text, a.created_date AS created, "2" AS browsernav, a.id AS eventid');
+        if ($sEvent) {
+            $query->select('a.title, a.description AS text, a.created_date AS created, a.summary AS summary, "2" AS browsernav, a.id AS eventid');
             $query->from('civicrm_event AS a');
             $query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .' OR a.summary LIKE '. $text .')  AND a.is_public = 1  AND a.is_template = 0 AND  a.is_active = 1 ');
             $query->group('a.id');
