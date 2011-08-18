@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension version="1.6" type="plugin" group="search">
-    <name>CiviCRM Search Plugin</name>
+    <name>plg_search_civisearch</name>
     <author>Brian Shaughnessy</author>
     <creationDate>August, 2011</creationDate>
     <copyright>(C) Brian Shaughnessy</copyright>
@@ -16,8 +16,8 @@
     </files>
 	
 	<languages>
-		<language tag="en-GB">en-GB.plg_civisearch.ini</language>
-		<language tag="en-GB">en-GB.plg_civisearch.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_search_civisearch.ini</language>
+		<language tag="en-GB">en-GB.plg_search_civisearch.sys.ini</language>
 	</languages>
 	
     <config>
