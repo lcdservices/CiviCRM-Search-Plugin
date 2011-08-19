@@ -10,17 +10,41 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
+if(version_compare(JVERSION,'1.6.0','ge')) {
+    
+    jimport('joomla.plugin.plugin');
+    require_once JPATH_SITE.'/components/com_content/router.php';
 
-require_once JPATH_SITE.'/components/com_content/router.php';
+} else {
+    $mainframe->registerEvent( 'onSearch', 'plgSearchCiviSearch' );
+    $mainframe->registerEvent( 'onSearchAreas', 'plgSearchCiviSearchAreas' );
 
+    JPlugin::loadLanguage( 'plg_search_civisearch' );
+}
 /**
  * CiviCRM Search plugin
  *
  * @package     Joomla.Plugin
  * @subpackage  Search.content
- * @since       1.6
+ * @since       1.5
  */
+
+function &plgSearchCiviSearchAreas()
+{
+    static $areas = array(
+                          'events' => 'Events'
+                         );
+    return $areas;
+}
+
+
+function plgSearchCiviSearch( $text, $phrase='', $ordering='', $areas=null )
+{
+	$return = plgSearchCiviSearch::onContentSearch($text, $phrase='', $ordering='', $areas=null);
+	return $return;
+}
+
+
 class plgSearchCiviSearch extends JPlugin
 {
     /**
@@ -28,7 +52,7 @@ class plgSearchCiviSearch extends JPlugin
      */
     function onContentSearchAreas()
     {
-        static $areas = array( 'events' => 'Events' );
+        $areas = plgSearchCiviSearchAreas();
         return $areas;
     }
 
@@ -43,31 +67,53 @@ class plgSearchCiviSearch extends JPlugin
      */
     function onContentSearch($text, $phrase='', $ordering='', $areas=null)
     {
-        $db     = JFactory::getDbo();
-        $app    = JFactory::getApplication();
-        $user   = JFactory::getUser();
-        $groups = implode(',', $user->getAuthorisedViewLevels());
-        $tag = JFactory::getLanguage()->getTag();
+        if(version_compare(JVERSION,'1.6.0','ge')) {
 
-        require_once JPATH_SITE.'/components/com_content/helpers/route.php';
-        require_once JPATH_SITE.'/administrator/components/com_search/helpers/search.php';
-
-        $searchText = $text;
-        if (is_array($areas)) {
-            if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
-                return array();
+            $db     = JFactory::getDbo();
+            $app    = JFactory::getApplication();
+            $user   = JFactory::getUser();
+            $groups = implode(',', $user->getAuthorisedViewLevels());
+            $tag = JFactory::getLanguage()->getTag();
+    
+            require_once JPATH_SITE.'/components/com_content/helpers/route.php';
+            require_once JPATH_SITE.'/administrator/components/com_search/helpers/search.php';
+    
+            $searchText = $text;
+            if (is_array($areas)) {
+                if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+                    return array();
+                }
             }
+    
+            $sEvent = $this->params->get('search_event');
+            $limit = $this->params->def('search_limit',        50);
+        } else {
+            $db     =& JFactory::getDBO();
+            $user   =& JFactory::getUser();
+            $searchText = $text;
+
+            require_once(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php');
+
+            if (is_array( $areas )) {
+                if (!array_intersect( $areas, array_keys( plgSearchCategoryAreas() ) )) {
+                    return array();
+                }
+            }
+        
+            // load plugin params info
+                    $plugin =& JPluginHelper::getPlugin('search', 'civisearch');
+            $pluginParams = new JParameter( $plugin->params );
+        
+            $limit = $pluginParams->def( 'search_limit', 50 );
+            
         }
 
-        $sEvent = $this->params->get('search_event');
-        $limit = $this->params->def('search_limit',        50);
-
-        $text = trim($text);
-        if ($text == '') {
+        $text = trim( $text );
+        if ( $text == '' ) {
             return array();
         }
 
-        switch ($ordering) {
+        switch ( $ordering ) {
             case 'alpha':
                 $order = 'a.title ASC';
                 break;
@@ -81,39 +127,53 @@ class plgSearchCiviSearch extends JPlugin
                 $order = 'a.id DESC';
         }
 
-        $text   = $db->Quote('%'.$db->getEscaped($text, true).'%', false);
-        $query  = $db->getQuery(true);
-
+    
+    
+        $text   = $db->Quote( '%'.$db->getEscaped( $text, true ).'%', false );
+        $select = 'a.title, a.description AS text, a.created_date AS created, a.summary AS summary, a.id AS eventid';
+        $from = 'civicrm_event AS a';
+        $where = '(a.title LIKE '. $text .' OR a.description LIKE '. $text .' OR a.summary LIKE '. $text .')  AND a.is_public = 1  AND a.is_template = 0 AND  a.is_active = 1';
+        $group = 'a.id';
         $return = array();
-        if ($sEvent) {
-            $query->select('a.title, a.description AS text, a.created_date AS created, a.summary AS summary, "2" AS browsernav, a.id AS eventid');
-            $query->from('civicrm_event AS a');
-            $query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .' OR a.summary LIKE '. $text .')  AND a.is_public = 1  AND a.is_template = 0 AND  a.is_active = 1 ');
-            $query->group('a.id');
+        
+        if(version_compare(JVERSION,'1.6.0','ge')) {
+            $query  = $db->getQuery(true);
+            $query->select($select);
+            $query->from($from);
+            $query->where($where);
+            $query->group($group);
             $query->order($order);
             if ($app->isSite() && $app->getLanguageFilter()) {
                 $query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
             }
+        } else {
+            $query  = 'SELECT '.$select
+                    . ' FROM '.$from
+                    . ' WHERE '.$where
+                    . ' GROUP BY '.$group
+                    . ' ORDER BY '. $order
+                    ;
+        }
+    
+        $db->setQuery($query, 0, $limit);
+        $rows = $db->loadObjectList();
 
-            $db->setQuery($query, 0, $limit);
-            $rows = $db->loadObjectList();
+        if ($rows) {
+            $count = count($rows);
+            for ($i = 0; $i < $count; $i++) {
+                $rows[$i]->href = 'index.php?option=com_civicrm&task=civicrm/event/info&reset=1&id='.$rows[$i]->eventid;
+                $rows[$i]->section  = JText::_('Event');
+            }
 
-            if ($rows) {
-                $count = count($rows);
-                for ($i = 0; $i < $count; $i++) {
-                    $rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
-                    $rows[$i]->href = 'index.php?option=com_civicrm&task=civicrm/event/info&reset=1&id='.$rows[$i]->eventid;
-                    $rows[$i]->section  = JText::_('Event');
-                }
-
-                $return = array();
-                foreach($rows AS $key => $event) {
-                    if (searchHelper::checkNoHTML($event, $searchText, array('summary', 'title', 'text'))) {
-                        $return[] = $event;
-                    }
+            $return = array();
+            foreach($rows AS $key => $event) {
+                if (searchHelper::checkNoHTML($event, $searchText, array('summary', 'title', 'text'))) {
+                    $return[] = $event;
                 }
             }
         }
+        
         return $return;
-    }
+    } 
+    
 }
