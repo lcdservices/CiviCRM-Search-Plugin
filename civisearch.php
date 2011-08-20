@@ -19,7 +19,7 @@ if(version_compare(JVERSION,'1.6.0','ge')) {
     $mainframe->registerEvent( 'onSearch', 'plgSearchCiviSearch' );
     $mainframe->registerEvent( 'onSearchAreas', 'plgSearchCiviSearchAreas' );
 
-    JPlugin::loadLanguage( 'plg_search_civisearch' );
+    JPlugin::loadLanguage( 'plg_search_civisearch', JPATH_ADMINISTRATOR );
 }
 /**
  * CiviCRM Search plugin
