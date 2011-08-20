@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install version="1.5" type="plugin" group="search">
     <name>plg_search_civisearch</name>
-    <author>Brian Shaughnessy</author>
+    <author>Lighthouse Consulting and Design</author>
     <creationDate>August, 2011</creationDate>
-    <copyright>(C) Brian Shaughnessy</copyright>
+    <copyright>(C) Lighthouse Consulting and Design</copyright>
     <authorEmail>brian@lcdservices.biz</authorEmail>
     <authorUrl>www.lcdservices.biz</authorUrl>
     <license>GNU Affero General Public License version 3 or later</license>
     <version>1.0</version>
-    <description>This plugin provides search access for CiviCRM resources.</description>
+    <description>This plugin provides search access for CiviCRM resources. Compatible with J1.5 and J1.6+.</description>
 	
     <files>
         <filename plugin="civisearch">civisearch.php</filename>
-        <filename>index.html</filename>
     </files>
 	
-	<languages>
-		<language tag="en-GB">en-GB.plg_search_civisearch.ini</language>
-		<language tag="en-GB">en-GB.plg_search_civisearch.sys.ini</language>
-	</languages>
-	<params>
-    <param name="search_event" type="radio" default="1" label="PLG_CIVISEARCH_EVENT_FIELD_LABEL" description="PLG_CIVISEARCH_EVENT_FIELD_DESC">
-      <option value='1'>JON</option>
-      <option value='0'>JOFF</option>
-    </param>
-	</params>
+    <languages>
+	<language tag="en-GB">en-GB.plg_search_civisearch.ini</language>
+	<language tag="en-GB">en-GB.plg_search_civisearch.sys.ini</language>
+    </languages>
+
+    <params>
+        <param name="search_event" type="radio" default="1" label="PLG_CIVISEARCH_EVENT_FIELD_LABEL" description="PLG_CIVISEARCH_EVENT_FIELD_DESC">
+            <option value='1'>JON</option>
+            <option value='0'>JOFF</option>
+        </param>
+    </params>
+    
     <config>
         <fields name="params">
             <fieldset name="basic">
@@ -39,4 +40,5 @@
             </fieldset>
         </fields>
     </config>
+    
 </install>
