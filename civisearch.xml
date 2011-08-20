@@ -14,7 +14,7 @@
         <filename plugin="civisearch">civisearch.php</filename>
     </files>
 	
-    <languages>
+    <languages folder="administrator/language/en-GB">
 	<language tag="en-GB">en-GB.plg_search_civisearch.ini</language>
 	<language tag="en-GB">en-GB.plg_search_civisearch.sys.ini</language>
     </languages>
