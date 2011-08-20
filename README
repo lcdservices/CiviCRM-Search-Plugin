@@ -7,4 +7,4 @@ Created: August, 2011
 Joomla search plugin to provide access to CiviCRM resources through the Joomla search tools. The plugin will be compatible with Joomla 1.5 and 1.6+. It currently provides for searching of CiviCRM events, using the event title, summary, and description fields, and returning a link to the event information page.
 
 CHANGELOG:
-2011-08-18 :: v1.0 :: intitial release with J1.5, J1.6+ compatibility
+2011-08-18 :: v1.0 :: initial release with J1.5, J1.6+ compatibility
