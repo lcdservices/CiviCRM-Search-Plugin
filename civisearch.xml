@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension version="1.6" type="plugin" group="search">
+<extension version="1.5" type="plugin" group="search">
     <name>plg_search_civisearch</name>
     <author>Brian Shaughnessy</author>
     <creationDate>August, 2011</creationDate>
