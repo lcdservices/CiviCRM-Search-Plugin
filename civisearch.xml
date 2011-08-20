@@ -15,11 +15,11 @@
     </files>
 	
     <languages>
-	<language tag="en-GB">en-GB.plg_search_civisearch.ini</language>
+        <language tag="en-GB">en-GB.plg_search_civisearch.ini</language>
     </languages>
 
     <params>
-        <param name="search_event" type="radio" default="1" label="PLG_CIVISEARCH_EVENT_FIELD_LABEL" description="PLG_CIVISEARCH_EVENT_FIELD_DESC">
+        <param name="search_event" type="radio" default="1" label="PLG_SEARCH_CIVISEARCH_EVENT_FIELD_LABEL" description="PLG_SEARCH_CIVISEARCH_EVENT_FIELD_DESC">
             <option value='1'>JON</option>
             <option value='0'>JOFF</option>
         </param>
