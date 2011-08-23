@@ -23,6 +23,7 @@
             <option value='1'>JON</option>
             <option value='0'>JOFF</option>
         </param>
+		<param name="itemid" type="menuitem" default="45" label="PLG_SEARCH_CIVISEARCH_ITEM_ID_LABEL" description="PLG_SEARCH_CIVISEARCH_ITEM_ID_DESC" />
     </params>
     
     <config>
@@ -36,6 +37,7 @@
                     <option value="1">JON</option>
                     <option value="0">JOFF</option>
                 </field>
+				<field name="itemid" type="menuitem" default="45" label="PLG_SEARCH_CIVISEARCH_ITEM_ID_LABEL" description="PLG_SEARCH_CIVISEARCH_ITEM_ID_DESC" />
             </fieldset>
         </fields>
     </config>

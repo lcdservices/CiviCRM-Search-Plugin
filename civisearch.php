@@ -87,6 +87,7 @@ class plgSearchCiviSearch extends JPlugin
     
             $sEvent = $this->params->get('search_event');
             $limit = $this->params->def('search_limit',        50);
+            $itemid = $this->params->def('itemid');
         } else {
             $db     =& JFactory::getDBO();
             $user   =& JFactory::getUser();
@@ -101,11 +102,10 @@ class plgSearchCiviSearch extends JPlugin
             }
         
             // load plugin params info
-                    $plugin =& JPluginHelper::getPlugin('search', 'civisearch');
+            $plugin =& JPluginHelper::getPlugin('search', 'civisearch');
             $pluginParams = new JParameter( $plugin->params );
-        
             $limit = $pluginParams->def( 'search_limit', 50 );
-            
+            $itemid = $pluginParams->def('itemid');
         }
 
         $text = trim( $text );
@@ -158,10 +158,16 @@ class plgSearchCiviSearch extends JPlugin
         $db->setQuery($query, 0, $limit);
         $rows = $db->loadObjectList();
 
+        $itemid_url = '';
+        if (isset($itemid)) {
+            $itemid_url = '&itemid='.$itemid;
+        }
+
         if ($rows) {
             $count = count($rows);
             for ($i = 0; $i < $count; $i++) {
-                $rows[$i]->href = 'index.php?option=com_civicrm&task=civicrm/event/info&reset=1&id='.$rows[$i]->eventid;
+                
+                $rows[$i]->href = 'index.php?option=com_civicrm&task=civicrm/event/info&reset=1&id='.$rows[$i]->eventid.$itemid_url;
                 $rows[$i]->section  = JText::_('Event');
             }
 
