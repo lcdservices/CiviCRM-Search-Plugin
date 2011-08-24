@@ -8,3 +8,4 @@ Joomla search plugin to provide access to CiviCRM resources through the Joomla s
 
 CHANGELOG:
 2011-08-18 :: v1.0 :: initial release with J1.5, J1.6+ compatibility
+2011-08-23 :: v1.1 :: add option to set menuitem when link is built
