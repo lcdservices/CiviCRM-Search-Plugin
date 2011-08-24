@@ -160,7 +160,7 @@ class plgSearchCiviSearch extends JPlugin
 
         $itemid_url = '';
         if (isset($itemid)) {
-            $itemid_url = '&itemid='.$itemid;
+            $itemid_url = '&Itemid='.$itemid;
         }
 
         if ($rows) {
